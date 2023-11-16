@@ -1,15 +1,20 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.chrome.options import Options
 
-import constants
+
+def pytest_addoption(parser):
+    parser.addoption("--language", action="store", default="en",
+                     help="Choose language")
 
 
 @pytest.fixture(scope="class")
-def browser():
+def browser(request):
     print("\nstart browser for test..")
-    browser = webdriver.Chrome()
+    user_language = request.config.getoption("language")
+    options = Options()
+    options.add_experimental_option("prefs", {"intl.accept_languages": user_language})
+    browser = webdriver.Chrome(options=options)
     browser.implicitly_wait(5)
     yield browser
     print("\nquit browser..")
