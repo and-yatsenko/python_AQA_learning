@@ -16,3 +16,4 @@ class ProductPageLocators:
     PRODUCT_PRICE_TEXT = (By.XPATH, "//div[contains(@class, 'product_main')]/p[1]")
     NAME_PRODUCT = (By.XPATH, "//div[contains(@class, 'product_main')]/h1")
     NAME_PRODUCT_ON_MESSAGE = (By.XPATH, "//div[@id = 'messages']//strong")
+    BASKET_PRICE_ON_MESSAGE = (By.XPATH, "//div[@id = 'messages']//p[contains(text(), 'basket total')]/strong")

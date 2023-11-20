@@ -9,7 +9,7 @@ class ProductPage(BasePage):
 
     def should_basket_price(self):
         product_price = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE_TEXT).text
-        basket_price = self.browser.find_element(*MainPageLocators.BASKET_PRICE_TEXT).text[14:19]
+        basket_price = self.browser.find_element(*ProductPageLocators.BASKET_PRICE_ON_MESSAGE).text
         assert product_price == basket_price, (
             f"Цена корзины = '{basket_price}' отличается от цены товара = '{product_price}' после добавления")
 
