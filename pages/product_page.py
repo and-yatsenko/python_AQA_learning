@@ -15,6 +15,15 @@ class ProductPage(BasePage):
 
     def should_name_of_product(self):
         product_name = self.browser.find_element(*ProductPageLocators.NAME_PRODUCT).text
-        product_name_on_message = self.browser.find_element(*ProductPageLocators.NAME_PRODUCT_ON_MESSAGE).text
+        product_name_on_message = self.browser.find_element(*ProductPageLocators.SUCCESS_MESSAGE).text
         assert product_name == product_name_on_message, (
-            f"Название товара = '{product_name}' отличается от товара добавленного в корзину = '{product_name_on_message}' после добавления")
+            f"Название товара = '{product_name}' отличается от "
+            f"товара добавленного в корзину = '{product_name_on_message}' после добавления")
+
+    def success_message_is_disappeared(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), ("Сообщение о добавлении товара в корзину не "
+                                                                           "исчезло")
+
+    def success_message_is_not_present(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), ("Сообщение о добавлении товара в "
+                                                                                   "корзину присутсвует на странице")
