@@ -1,5 +1,6 @@
 import pytest
 
+from .pages.basket_page import BasketPage
 from .pages.login_page import LoginPage
 from .pages.product_page import ProductPage
 
@@ -89,3 +90,15 @@ def test_message_disappeared_after_adding_product_to_basket(browser, link):
     page.open()
     page.add_to_basket()
     page.success_message_is_disappeared()
+
+
+@pytest.mark.smoke
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/"
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_be_basket_button()
+    page.go_to_basket_page()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.should_basket_is_empty()
+    basket_page.should_basket_is_empty_text()
