@@ -1,5 +1,6 @@
 import time
 
+import allure
 import pytest
 
 from .pages.main_page import MainPage
@@ -8,12 +9,13 @@ from .pages.login_page import LoginPage
 from .pages.product_page import ProductPage
 
 
-# Шаги:
-#     1. Открываем страницу продукта по ссылке
-#     2. Переходим на страницу логина
-# Ожидаемый результат:
-#     1. Есть кнопка логина
-#     2. Есть форма авторизации.
+@allure.description("""
+Шаги:
+    1. Открываем страницу продукта по ссылке
+    2. Переходим на страницу логина
+Ожидаемый результат:
+    1. Есть кнопка логина
+    2. Есть форма авторизации.""")
 @pytest.mark.smoke
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"])
 def test_guest_should_see_login_link_on_product_page(browser, link):
@@ -25,13 +27,14 @@ def test_guest_should_see_login_link_on_product_page(browser, link):
     login_page.should_be_login_page()
 
 
-# Шаги:
-#     1. Открываем страницу продукта по ссылке
-#     2. Кликаем на кнопку "Добавить в корзину"
-# Ожидаемый результат:
-#     1. Сообщение о том, что товар добавлен в корзину.
-#         Название товара в сообщении должно совпадать с тем товаром, который вы действительно добавили.
-#     2. Сообщение со стоимостью корзины. Стоимость корзины совпадает с ценой товара.
+@allure.description("""
+Шаги:
+    1. Открываем страницу продукта по ссылке
+    2. Кликаем на кнопку "Добавить в корзину"
+Ожидаемый результат:
+    1. Сообщение о том, что товар добавлен в корзину.
+        Название товара в сообщении должно совпадать с тем товаром, который вы действительно добавили.
+    2. Сообщение со стоимостью корзины. Стоимость корзины совпадает с ценой товара. """)
 @pytest.mark.regression
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1",
@@ -54,11 +57,12 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.should_name_of_product()
 
 
-# Шаги:
-#     1. Открываем страницу товара
-#     2. Добавляем товар в корзину
-# Ожидаемый результат:
-#     Нет сообщения об успехе is_not_element_present
+@allure.description("""
+Шаги:
+    1. Открываем страницу товара
+    2. Добавляем товар в корзину
+Ожидаемый результат:
+    Нет сообщения об успехе is_not_element_present """)
 @pytest.mark.skip
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"])
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser, link):
@@ -68,10 +72,11 @@ def test_guest_cant_see_success_message_after_adding_product_to_basket(browser, 
     page.success_message_is_not_present()
 
 
-# Шаги:
-#     1. Открываем страницу товара
-# Ожидаемый результат:
-#     Нет сообщения об успехе с помощью is_not_element_present
+@allure.description("""
+Шаги:
+    1. Открываем страницу товара
+Ожидаемый результат:
+    Нет сообщения об успехе с помощью is_not_element_present """)
 @pytest.mark.smoke
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"])
 def test_guest_cant_see_success_message(browser, link):
@@ -80,26 +85,27 @@ def test_guest_cant_see_success_message(browser, link):
     page.success_message_is_not_present()
 
 
-# Шаги:
-#     1. Открываем страницу товара
-#     2. Добавляем товар в корзину
-# Ожидаемый результат:
-#     Нет сообщения об успехе с помощью is_disappeared
-@pytest.mark.skip
+@allure.description("""
+Шаги:
+    1. Открываем страницу товара
+    2. Добавляем товар в корзину
+Ожидаемый результат:
+    Нет сообщения об успехе с помощью is_disappeared """)
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"])
-def test_message_disappeared_after_adding_product_to_basket(browser, link):
+def test_message_disappeared_after_adding_product_to_basket_fail(browser, link):
     page = ProductPage(browser, link)
     page.open()
     page.add_to_basket()
     page.success_message_is_disappeared()
 
 
-# Шаги:
-#     1. Открываем страницу по ссылке
-#     2. Переходим в корзину
-# Ожидаемый результат:
-#     1. Корзина пустая
-#     2. Сообщение о том, что корзина пустая.
+@allure.description("""
+    Шаги:
+        1. Открываем страницу по ссылке
+        2. Переходим в корзину
+    Ожидаемый результат:
+        1. Корзина пустая
+        2. Сообщение о том, что корзина пустая.""")
 @pytest.mark.smoke
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/"
@@ -128,13 +134,14 @@ class TestUserAddToBasketFromProductPage:
         yield
         login_page.logout()
 
-    # Шаги:
-    #     1. Открываем страницу продукта по ссылке
-    #     2. Кликаем на кнопку "Добавить в корзину"
-    # Ожидаемый результат:
-    #     1. Сообщение о том, что товар добавлен в корзину.
-    #         Название товара в сообщении должно совпадать с тем товаром, который вы действительно добавили.
-    #     2. Сообщение со стоимостью корзины. Стоимость корзины совпадает с ценой товара.
+    @allure.description("""
+    Шаги:
+        1. Открываем страницу продукта по ссылке
+        2. Кликаем на кнопку "Добавить в корзину"
+    Ожидаемый результат:
+        1. Сообщение о том, что товар добавлен в корзину.
+            Название товара в сообщении должно совпадать с тем товаром, который вы действительно добавили.
+        2. Сообщение со стоимостью корзины. Стоимость корзины совпадает с ценой товара.""")
     @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"])
     def test_user_can_add_product_to_basket(self, browser, link):
         page = ProductPage(browser, link)
@@ -143,10 +150,11 @@ class TestUserAddToBasketFromProductPage:
         page.should_basket_price()
         page.should_name_of_product()
 
+    @allure.description("""
     # Шаги:
     #     1. Открываем страницу товара
     # Ожидаемый результат:
-    #     Нет сообщения об успехе с помощью is_not_element_present
+    #     Нет сообщения об успехе с помощью is_not_element_present""")
     @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"])
     def test_user_cant_see_success_message(self, browser, link):
         page = ProductPage(browser, link)
