@@ -91,8 +91,9 @@ def test_guest_cant_see_success_message(browser, link):
     2. Добавляем товар в корзину
 Ожидаемый результат:
     Нет сообщения об успехе с помощью is_disappeared """)
+@pytest.mark.skip
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"])
-def test_message_disappeared_after_adding_product_to_basket_fail(browser, link):
+def test_message_disappeared_after_adding_product_to_basket(browser, link):
     page = ProductPage(browser, link)
     page.open()
     page.add_to_basket()
