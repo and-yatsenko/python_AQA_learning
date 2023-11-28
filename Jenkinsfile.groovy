@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    parameters {
+        choice(name: 'TEST_SUITE', choices: ['Smoke', 'Smoke&Regression'], description: 'Набор тестов')
+        string(name: 'TEST_BRANCH_NAME', defaultValue: 'main', description: 'Ветка для запуска автотестов')
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -11,13 +14,17 @@ pipeline {
             steps {
                  // Создание виртуальной среды и установка пакетов
                 sh 'python3 -m venv venv'
-                sh '. venv/bin/activate && pip install -r requirements.txt'
+                if (${params.TEST_SUITE} == 'Smoke') {
+                    sh '. venv/bin/activate && pytest -s -v -m smoke --alluredir allure-results'
+                } else if (${params.TEST_SUITE} == 'Smoke&Regression') {
+                    sh '. venv/bin/activate && pytest -s -v -m "smoke and regression" --alluredir allure-results'
+                }
             }
         }
         stage('Test') {
             steps {
                 // Запуск автотестов (например, pytest)
-                sh '. venv/bin/activate && pytest -s -v -m "${test_suite}" --alluredir allure-results'
+                sh '. venv/bin/activate && pytest -s -v -m "${TEST_BRANCH_NAME}" --alluredir allure-results'
             }
         }
         stage('Reports') {
