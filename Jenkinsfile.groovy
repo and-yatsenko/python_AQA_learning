@@ -29,10 +29,10 @@ pipeline {
                 }
             }
         }
-        stage('Reports') {
-            steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
-            }
+    }
+     post {
+        always {
+            allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
         }
     }
 }
