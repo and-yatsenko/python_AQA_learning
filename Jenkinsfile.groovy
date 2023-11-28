@@ -1,3 +1,6 @@
+branchName  = "${branch_name}"
+branchName  = "${test_suite}"
+
 pipeline {
     agent any
 
@@ -17,7 +20,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Запуск автотестов (например, pytest)
-                sh '. venv/bin/activate && pytest -s -v --tb=line --alluredir allure-results'
+                sh '. venv/bin/activate && pytest -s -v -m "${branch_name}" --alluredir allure-results'
             }
         }
         stage('Reports') {
