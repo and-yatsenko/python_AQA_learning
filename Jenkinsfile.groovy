@@ -14,10 +14,12 @@ pipeline {
             steps {
                  // Создание виртуальной среды и установка пакетов
                 sh 'python3 -m venv venv'
-                if (${params.TEST_SUITE} == 'Smoke') {
-                    sh '. venv/bin/activate && pytest -s -v -m smoke --alluredir allure-results'
-                } else if (${params.TEST_SUITE} == 'Smoke&Regression') {
-                    sh '. venv/bin/activate && pytest -s -v -m "smoke and regression" --alluredir allure-results'
+                script {
+                    if (${params.TEST_SUITE} == 'Smoke') {
+                        sh '. venv/bin/activate && pytest -s -v -m smoke --alluredir allure-results'
+                    } else if (${params.TEST_SUITE} == 'Smoke&Regression') {
+                        sh '. venv/bin/activate && pytest -s -v -m "smoke and regression" --alluredir allure-results'
+                    }
                 }
             }
         }
