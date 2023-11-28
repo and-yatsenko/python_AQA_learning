@@ -21,9 +21,9 @@ pipeline {
             steps {
                 // Запуск автотестов
                 script {
-                    if (${params.TEST_SUITE} == 'Smoke') {
+                    if (params.TEST_SUITE == 'Smoke') {
                         sh '. venv/bin/activate && pytest -s -v -m smoke --alluredir allure-results'
-                    } else if (${params.TEST_SUITE} == 'Smoke&Regression') {
+                    } else if (params.TEST_SUITE == 'Smoke&Regression') {
                         sh '. venv/bin/activate && pytest -s -v -m "smoke and regression" --alluredir allure-results'
                     }
                 }
