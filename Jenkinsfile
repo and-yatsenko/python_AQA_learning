@@ -17,7 +17,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Запуск автотестов (например, pytest)
-                sh '. venv/bin/activate && pytest -s -v --alluredir allure-results'
+                sh '. venv/bin/activate && pytest -s -v --tb=line --alluredir allure-results'
             }
         }
         stage('Reports') {
