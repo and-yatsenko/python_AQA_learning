@@ -63,9 +63,9 @@ def test_guest_can_add_product_to_basket(browser, link):
     2. Добавляем товар в корзину
 Ожидаемый результат:
     Нет сообщения об успехе is_not_element_present """)
-@pytest.mark.skip
+@pytest.mark.regression
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"])
-def test_guest_cant_see_success_message_after_adding_product_to_basket(browser, link):
+def test_guest_cant_see_success_message_after_adding_product_to_basket_fail(browser, link):
     page = ProductPage(browser, link)
     page.open()
     page.add_to_basket()
