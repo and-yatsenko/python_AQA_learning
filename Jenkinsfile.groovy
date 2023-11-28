@@ -1,13 +1,10 @@
-branchName  = "${branch_name}"
-branchName  = "${test_suite}"
-
 pipeline {
     agent any
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/and-yatsenko/python_AQA_learning.git']])
+                checkout scmGit(branches: [[name: "${branch_name}"]], extensions: [], userRemoteConfigs: [[url: 'https://github.com/and-yatsenko/python_AQA_learning.git']])
             }
         }
         stage('Build') {
