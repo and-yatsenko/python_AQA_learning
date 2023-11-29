@@ -29,6 +29,15 @@ pipeline {
                 }
             }
         }
+        stage('Rerun-failures') {
+            steps {
+                // Запуск автотестов
+                script {
+                    sh '. venv/bin/activate && pytest -s -v --lf --alluredir allure-results'
+
+                }
+            }
+        }
     }
      post {
         always {
