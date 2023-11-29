@@ -20,18 +20,20 @@ pipeline {
         stage('Test') {
             steps {
                 // Запуск автотестов
-                script {
-                    if (params.TEST_SUITE == 'Smoke') {
-                        sh '. venv/bin/activate && pytest -s -v -m smoke --alluredir allure-results'
-                    } else if (params.TEST_SUITE == 'Smoke&Regression') {
-                        sh '. venv/bin/activate && pytest -s -v -m "smoke or regression" --alluredir allure-results'
+                catchError(buildResult: "UNSTABLE", stageResult: "FAILURE") {
+                    script {
+                        if (params.TEST_SUITE == 'Smoke') {
+                            sh '. venv/bin/activate && pytest -s -v -m smoke --alluredir allure-results'
+                        } else if (params.TEST_SUITE == 'Smoke&Regression') {
+                            sh '. venv/bin/activate && pytest -s -v -m "smoke or regression" --alluredir allure-results'
+                        }
                     }
                 }
             }
         }
         stage('Rerun-failures') {
             steps {
-                // Запуск автотестов
+                // Перезапуск упавших автотестов
                 script {
                     sh '. venv/bin/activate && pytest -s -v --lf --alluredir allure-results'
 
